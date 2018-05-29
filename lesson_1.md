@@ -29,3 +29,12 @@ contract HelloWorld {
 
 }
 ```
+## State Variables & Integers
+
+Solidity doesn't use your average, run-of-the-mill variables. It uses... **State Variables**!
+
+**State variables** are variables that are permanently stored in our contract's storage. This means they're written to the Ethereum blockchain :open_mouth::open_mouth:
+
+Similarly, Solidity doesn't use just any old `int`, it uses `uint`s, or **Unsigned Integers**! This means that `uint`s are always non-negative.
+
+> Note: In Solidity, `uint` is actually an alias for `uint256`, a 256-bit unsigned integer. You can declare `uint`s with less bits — `uint8`, `uint16`, `uint32`, etc.. But in general you want to simply use `uint` except in specific cases, which we'll talk about in later lessons.
