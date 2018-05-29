@@ -62,3 +62,16 @@ string[5] stringArray;
 // a dynamic Array - has no fixed size, can keep growing:
 uint[] dynamicArray;
 ```
+
+## Private & Public Functions
+
+The distinction between `private` and `public`is very important in Solidity.
+
+When your function is `public`, anyone can call your contract's function and execute its code. This is obviously a huge security vulnerability, so its good practice to mark all your functions as `private` by default, and then only make those functiosn `public` that you want the world to be able to see.
+
+Like so: 
+```
+function _addToArray(uint _number) private {
+  numbers.push(_number);
+}
+```
