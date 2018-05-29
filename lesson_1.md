@@ -38,3 +38,15 @@ Solidity doesn't use your average, run-of-the-mill variables. It uses... **State
 Similarly, Solidity doesn't use just any old `int`, it uses `uint`s, or **Unsigned Integers**! This means that `uint`s are always non-negative.
 
 > Note: In Solidity, `uint` is actually an alias for `uint256`, a 256-bit unsigned integer. You can declare `uint`s with less bits — `uint8`, `uint16`, `uint32`, etc.. But in general you want to simply use `uint` except in specific cases, which we'll talk about in later lessons.
+
+
+## Structs
+
+Solidity also allows you to create more complicated data types, such as `struct`s. So far, it looks like `struct`s behave the same as objects in JavaScript. Our zombies will all be represented as `struct`s.
+
+```
+struct Person {
+  uint age;
+  string name;
+}
+```
