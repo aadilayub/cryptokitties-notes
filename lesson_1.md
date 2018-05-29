@@ -1,6 +1,6 @@
 # Lesson 1: The Zombie Factory
 
-In this lesson, we're going to build a "Zombie Factory" that generates an army of zombies. 
+In this lesson, we're supposed to build a "Zombie Factory" that generates an army of zombies. 
 
 - The factory will maintain a database of all zombies in our army
 - The factory will have a function for creating new zombies
