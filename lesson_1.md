@@ -14,3 +14,18 @@ All zombies have DNA, which determines their appearance. It is a 16-bit integer:
 Like regular DNA, Zombie DNA is composed of *genes*, which correlate to specific traits. In our case, these genes are composed of 2 digits each. The first two digits map to the head type, the second two map to the color of the eyes, and so on:
 
 ![zombie dna](https://cryptozombies.io/images/feature-zombie-dna.png)
+
+## Smart Contract Boilerplate
+
+Solidity code is mostly built around **smart contracts**. 
+
+> A contract is the fundamental building block of Ethereum applications — all variables and functions belong to a contract, and this will be the starting point of all your projects.
+
+Your solidity code should start like this:
+```
+pragma solidity ^0.4.19;
+
+contract HelloWorld {
+
+}
+```
