@@ -75,3 +75,13 @@ function _addToArray(uint _number) private {
   numbers.push(_number);
 }
 ```
+
+## Function Modifiers: `view` & `pure`
+
+You can add "modifiers" at the end of function declarations to mark them as `pure` or `view`. Regular functions read and modify contract data. `view` functions can only view, not modify, contract data. `pure` functions don't interact with the blockchain at all.
+
+```
+function _multiply(uint a, uint b) private pure returns (uint) {
+  return a * b;
+}
+```
