@@ -99,3 +99,35 @@ keccak256("aaaac");
 ```
 
 > Note: Secure random-number generation in blockchain is a very difficult problem. Our method here is insecure, but since security isn't top priority for our Zombie DNA, it will be good enough for our purposes.
+
+## zombiefactory.sol
+
+At the end, our Solidity contract should look like this:
+
+```
+pragma solidity ^0.4.19;
+
+contract ZombieFactory {
+
+    uint dnaDigits = 16;
+    uint dnaModulus = 10 ** dnaDigits;
+
+    struct Zombie {
+        string name;
+        uint dna;
+    }
+
+    Zombie[] public zombies;
+
+    function _createZombie(string _name, uint _dna) private {
+        zombies.push(Zombie(_name, _dna));
+    } 
+
+    function _generateRandomDna(string _str) private view returns (uint) {
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+
+}
+
+```
