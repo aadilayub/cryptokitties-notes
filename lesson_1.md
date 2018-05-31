@@ -3,8 +3,23 @@
 In this lesson, we're supposed to build a "Zombie Factory" that generates an army of zombies. 
 
 - The factory will maintain a database of all zombies in our army
+```
+Zombie[] public zombies;
+```
 - The factory will have a function for creating new zombies
+```
+function _createZombie(string _name, uint _dna) private {
+        zombies.push(Zombie(_name, _dna));
+    } 
+
+```
 - Each zombie will have a random and unique appearance
+```
+ function _generateRandomDna(string _str) private view returns (uint) {
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+```
 
 ## Zombie DNA
 All zombies have DNA, which determines their appearance. It is a 16-bit integer:
