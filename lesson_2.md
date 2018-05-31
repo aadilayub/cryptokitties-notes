@@ -16,13 +16,13 @@ We can use this data structure to associate people's addresses with the zombies 
     mapping (address => uint) ownerZombieCount;
 ```
 
-### Addresses 
+## Addresses 
 
 The ethereum blockchcain is made up of accounts. An account has a balance of ether and can send and receive payments. Each account has a unique ```address```, which looks like this:
 ```
 0x0cE446255506E92DF41614C46F1d6df9Cc969183
 ```
-### Msg.sender
+## Msg.sender
 
 In Solidity, there are certain global variables that are available to all functions. One of these is `msg.sender`. `msg.sender` is kindof like `this`, in that its value depends on the context in which it is used. Generally, `msg.sender` refers to the `address` of the person (or smart contract) that called the function. Here's an example of us using `msg.sender` to update the record of zombies owned by a person:
 ```
@@ -32,4 +32,16 @@ function _createZombie(string _name, uint _dna) private {
         ownerZombieCount[msg.sender]++;
         NewZombie(id, _name, _dna);
     }
+```
+## Require
+We have a function called `_createRandomZombie` that lets users create new zombies. However, if anyone could keep creating unlimited zombies all the time, that wouldn't be very game-like (where's the challenge??). To make things difficult, we can use a cool statement called `require`, that refuses to run the code until a specific condition is met. We're gonna use it to make it so that the `_createRandomZombie_` function can only be called once per player:
+```
+function sayHiToVitalik(string _name) public returns (string) {
+  // Compares if _name equals "Vitalik". Throws an error and exits if not true.
+  // (Side note: Solidity doesn't have native string comparison, so we
+  // compare their keccak256 hashes to see if the strings are equal)
+  require(keccak256(_name) == keccak256("Vitalik"));
+  // If it's true, proceed with the function:
+  return "Hi!";
+}
 ```
