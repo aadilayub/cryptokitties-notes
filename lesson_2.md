@@ -45,3 +45,19 @@ function sayHiToVitalik(string _name) public returns (string) {
   return "Hi!";
 }
 ```
+
+## Inheritance
+
+This one is pretty simple. You can use the keyword `is` to make a function inherit the properties of another function. It's very similar to the concept of interfaces or subclasses. We're going to use it to make the `ZombieFeeding` function (which makes zombies attack people and turn them into zombies) inherit from the `ZombieFactory` function:
+```
+contract ZombieFeeding is ZombieFactory {
+
+  function feedAndMultiply(uint _zombieId, uint _targetDna) public {
+    require(msg.sender == zombieToOwner[_zombieId]);
+    Zombie storage myZombie = zombies[_zombieId];
+    _targetDna = _targetDna % dnaModulus;
+    uint newDna = (myZombie.dna + _targetDna) / 2;
+    _createZombie("NoName", newDna);
+  }
+}
+```
