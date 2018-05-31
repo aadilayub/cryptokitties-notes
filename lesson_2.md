@@ -107,3 +107,58 @@ contract BLT is Sandwich {
   }
 }
 ```
+## Eating Cryptokitties: How to Interact with other contracts :smirk_cat:
+
+Since both CryptoZombies and CryptoKitties are stored openly on the blockchain, their smart contracts are interoperable!! 
+
+For our contract to talk to another contract on the blockchain that we don't own, we first need to define an **interface**.
+
+i.e. we have to include a basic declaration of the other contract's functions (only the functions that we're going to interact with) in our codebase, so that our contract knows what the other contract's functions look like, and how to interact with them.
+
+Cryptokitties has a function called `getKitty` that we need to interact with, and it looks like this: 
+```
+function getKitty(uint256 _id) external view returns (
+    bool isGestating,
+    bool isReady,
+    uint256 cooldownIndex,
+    uint256 nextActionAt,
+    uint256 siringWithId,
+    uint256 birthTime,
+    uint256 matronId,
+    uint256 sireId,
+    uint256 generation,
+    uint256 genes
+) {
+    Kitty storage kit = kitties[_id];
+
+    // if this variable is 0 then it's not gestating
+    isGestating = (kit.siringWithId != 0);
+    isReady = (kit.cooldownEndBlock <= block.number);
+    cooldownIndex = uint256(kit.cooldownIndex);
+    nextActionAt = uint256(kit.cooldownEndBlock);
+    siringWithId = uint256(kit.siringWithId);
+    birthTime = uint256(kit.birthTime);
+    matronId = uint256(kit.matronId);
+    sireId = uint256(kit.sireId);
+    generation = uint256(kit.generation);
+    genes = kit.genes;
+}
+```
+
+To interact with it, we just add it to our codebase within an inteface contract, like so:
+```
+contract KittyInterface {
+  function getKitty(uint256 _id) external view returns (
+    bool isGestating,
+    bool isReady,
+    uint256 cooldownIndex,
+    uint256 nextActionAt,
+    uint256 siringWithId,
+    uint256 birthTime,
+    uint256 matronId,
+    uint256 sireId,
+    uint256 generation,
+    uint256 genes
+  );
+}
+```
