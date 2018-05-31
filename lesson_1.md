@@ -88,3 +88,14 @@ function _multiply(uint a, uint b) private pure returns (uint) {
 
 ## Keccak256 and Typecasting
 
+Ethereum has the hash function `keccak256` built in, which is a version of SHA3. It's useful for many purposes, but in our program, we'll mainly be using it for random number generation. 
+
+Example:
+```
+//6e91ec6b618bb462a4a6ee5aa2cb0e9cf30f7a052bb467b0ba58b8748c00d2e5
+keccak256("aaaab");
+//b1f078126895a1424524de5321b339ab00408010b7cf0e6ed451514981e58aa9
+keccak256("aaaac");
+```
+
+> Note: Secure random-number generation in blockchain is a very difficult problem. Our method here is insecure, but since security isn't top priority for our Zombie DNA, it will be good enough for our purposes.
