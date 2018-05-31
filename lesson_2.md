@@ -61,3 +61,9 @@ contract ZombieFeeding is ZombieFactory {
   }
 }
 ```
+
+## Storage vs Memory
+
+In Solidity, there are two places where you can store variables: `storage` and `memory`. State variables (variables declared outside funtcions) are by default `storage` and are written permanently into the blockchain, whereas variables declared inside functions are by default `memory` and will disappear when the function call ends.
+
+Usually, you don't have to explicitly declare variables as `storage` or `memory` since it's already being done by the compiler in the background, but in some cases you will have to do this to saev memory or reduce gas.
