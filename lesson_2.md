@@ -72,6 +72,7 @@ In Solidity, there are two places where you can store variables: `storage` and `
 
 Usually, you don't have to explicitly declare variables as `storage` or `memory` since it's already being done by the compiler in the background, but in some cases you will have to do this to saev memory or reduce gas.
 
+### `feedAndMultiply()`
 
 ## Zombie DNA
 
