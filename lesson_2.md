@@ -2,7 +2,9 @@
 ![zombies](https://cdn-images-1.medium.com/max/1200/1*-T-fIh5GDl7XvhVAvu6OYA.png)
 ## Zombie Feeding
 
-In lesson 1, we created a basic data structure to represent a zombie. In this lesson, we'll make the game multiplayer and set up a mechanism to attack and create new zombies. 
+In lesson 1, we created a basic data structure to represent a zombie. In this lesson, we'll make the game multiplayer and set up a mechanism to attack and create new zombies.
+
+To accomplish this, we will be creating a new contract called **zombiefeeding.sol**.
 
 ## Mappings and Addresses
 
