@@ -102,6 +102,16 @@ function testDnaSplicing() public {
   // ^ will be equal to 3333333333333333
 }
 ```
+Let's implement that in `feedAndMultiply`:
+```
+function feedAndMultiply(uint _zombieId, uint _targetDna) public {
+    require(msg.sender == zombieToOwner[_zombieId]);
+    Zombie storage myZombie = zombies[_zombieId];
+    _targetDna = _targetDna % dnaModulus;
+    uint newDna = (myZombie.dna + _targetDna) / 2;
+    _createZombie("NoName", newDna);
+  }
+```
 ## Internal vs External Functions
 
 In addition to `public` and `private`, Solidity has two more types of visibility for functions, `internal` and `external`.
