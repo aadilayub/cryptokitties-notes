@@ -37,13 +37,9 @@ Solidity code is mostly built around **smart contracts**.
 > A contract is the fundamental building block of Ethereum applications — all variables and functions belong to a contract, and this will be the starting point of all your projects.
 
 Your solidity code should start like this:
-```
-pragma solidity ^0.4.19;
 
-contract HelloWorld {
+![boilerplate](./screenshots/boilerplate.png)
 
-}
-```
 ## State Variables & Integers
 
 Solidity doesn't use your average, run-of-the-mill variables. It uses... **State Variables**!
