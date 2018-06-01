@@ -115,6 +115,12 @@ keccak256("aaaac");
 
 > Note: Secure random-number generation in blockchain is a very difficult problem. Our method here is insecure, but since security isn't top priority for our Zombie DNA, it will be good enough for our purposes.
 
+## Events
+
+The last contract we will be creating in this smart contract is an **event**. Events are a way for our smart contract to communicate that something happened on the blockchain to our app front-end, which can be 'listening' for certain events and take action when they happen.
+
+In our case, we're going to create a `NewZombie` event that will notify our front-end web3.js that a new zombie has been created.
+
 ## zombiefactory.sol
 
 At the end, our Solidity contract should look like this:
@@ -123,6 +129,8 @@ At the end, our Solidity contract should look like this:
 pragma solidity ^0.4.19;
 
 contract ZombieFactory {
+
+    event NewZombie(uint zombieId, string name, uint dna);
 
     uint dnaDigits = 16;
     uint dnaModulus = 10 ** dnaDigits;
@@ -134,13 +142,25 @@ contract ZombieFactory {
 
     Zombie[] public zombies;
 
-    function _createZombie(string _name, uint _dna) private {
-        zombies.push(Zombie(_name, _dna));
-    } 
+    mapping (uint => address) public zombieToOwner;
+    mapping (address => uint) ownerZombieCount;
+
+    function _createZombie(string _name, uint _dna) internal {
+        uint id = zombies.push(Zombie(_name, _dna)) - 1;
+        zombieToOwner[id] = msg.sender;
+        ownerZombieCount[msg.sender]++;
+        NewZombie(id, _name, _dna);
+    }
 
     function _generateRandomDna(string _str) private view returns (uint) {
         uint rand = uint(keccak256(_str));
         return rand % dnaModulus;
+    }
+
+    function createRandomZombie(string _name) public {
+        require(ownerZombieCount[msg.sender] == 0);
+        uint randDna = _generateRandomDna(_name);
+        _createZombie(_name, randDna);
     }
 
 }
