@@ -192,3 +192,11 @@ contract KittyInterface {
   );
 }
 ```
+## Using an Interface
+
+Once we've defined an interface inside our contract, we can use it as follows:
+```
+  address ckAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
+  KittyInterface kittyContract = KittyInterface(ckAddress);
+```
+where `ckAddress` is the address of the cryptokitties smart contract. 
