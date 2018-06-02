@@ -203,23 +203,4 @@ where `ckAddress` is the address of the cryptokitties smart contract.
 
 ## Handling Multiple Return Values
 The `getKitty` function is the first time we've seen a function return multiple values. The syntax for doing this is a little weird, so let's go over it. 
-```
-function multipleReturns() internal returns(uint a, uint b, uint c) {
-  return (1, 2, 3);
-}
-
-function processMultipleReturns() external {
-  uint a;
-  uint b;
-  uint c;
-  // This is how you do multiple assignment:
-  (a, b, c) = multipleReturns();
-}
-
-// Or if we only cared about one of the values:
-function getLastReturnValue() external {
-  uint c;
-  // We can just leave the other fields blank:
-  (,,c) = multipleReturns();
-}
-```
+![multiplereturns](./screenshots/multiplereturns.png)
