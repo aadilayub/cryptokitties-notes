@@ -210,3 +210,61 @@ where `ckAddress` is the address of the cryptokitties smart contract.
 ## Handling Multiple Return Values
 The `getKitty` function is the first time we've seen a function return multiple values. The syntax for doing this is a little weird, so let's go over it. 
 ![multiplereturns](./screenshots/multiplereturns.png)
+
+## Kitty Genes 
+
+After adding the ability to feed on cryptokitties, we now have two species of zombies in our game! Let's make it so zombies made from kitties have some unique feature that shows they're cat-zombies.
+
+To do this, we can add some special kitty code in the zombie's DNA. If you recall from lesson 1, we're currently only using the first 12 digits of our 16 digit DNA to determine the zombie's appearance. So let's use the last 2 unused digits to handle "special" characteristics.
+
+We'll say that cat-zombies have 99 as their last two digits of DNA (since cats have 9 lives). So in our code, we'll say if a zombie comes from a cat, then set the last two digits of DNA to 99.
+
+At the end, our `zombiefeeding` contract should look like this: 
+```
+pragma solidity ^0.4.19;
+
+import "./zombiefactory.sol";
+
+contract KittyInterface {
+  function getKitty(uint256 _id) external view returns (
+    bool isGestating,
+    bool isReady,
+    uint256 cooldownIndex,
+    uint256 nextActionAt,
+    uint256 siringWithId,
+    uint256 birthTime,
+    uint256 matronId,
+    uint256 sireId,
+    uint256 generation,
+    uint256 genes
+  );
+}
+
+contract ZombieFeeding is ZombieFactory {
+
+  address ckAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
+  KittyInterface kittyContract = KittyInterface(ckAddress);
+
+  // Modify function definition here:
+  function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) public {
+    require(msg.sender == zombieToOwner[_zombieId]);
+    Zombie storage myZombie = zombies[_zombieId];
+    _targetDna = _targetDna % dnaModulus;
+    uint newDna = (myZombie.dna + _targetDna) / 2;
+    // Add an if statement here
+    if (keccak256(_species) == keccak256("kitty")) {
+      newDna = newDna - newDna % 100 + 99;
+    }
+    _createZombie("NoName", newDna);
+  }
+
+  function feedOnKitty(uint _zombieId, uint _kittyId) public {
+    uint kittyDna;
+    (,,,,,,,,,kittyDna) = kittyContract.getKitty(_kittyId);
+    // And modify function call here:
+    feedAndMultiply(_zombieId, kittyDna, "kitty");
+  }
+
+}
+
+```
