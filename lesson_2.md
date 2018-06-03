@@ -143,6 +143,8 @@ contract BLT is Sandwich {
 ```
 ## Eating Cryptokitties: How to Interact with other contracts :smirk_cat:
 
+![cryptokitty](https://www.cryptokitties.co/images/kitty-eth.svg)
+
 Since both CryptoZombies and CryptoKitties are stored openly on the blockchain, their smart contracts are interoperable!! 
 
 For our contract to talk to another contract on the blockchain that we don't own, we first need to define an **interface**.
