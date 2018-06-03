@@ -56,3 +56,59 @@ contract ZombieFeeding is ZombieFactory {
 
 }
 ```
+
+## Ownable Contracts
+
+There's a problem with our previous code. `setKittyContracts` is `external`, so anyone can call it! That means anyone who called the function could change the address of the CryptoKitties contract, and break our app for all its users. The solution to this is making `setKittyContracts` `Ownable` instead of `external`.
+
+### OpenZeppelin's `Ownable` contract
+
+OpenZeppelin is a library of secure and community-vetted smart contracts that you can use in your own DApps.Below is the Ownable contract taken from their Solidity library: 
+```
+/**
+ * @title Ownable
+ * @dev The Ownable contract has an owner address, and provides basic authorization control
+ * functions, this simplifies the implementation of "user permissions".
+ */
+contract Ownable {
+  address public owner;
+  event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+  /**
+   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+   * account.
+   */
+  function Ownable() public {
+    owner = msg.sender;
+  }
+
+  /**
+   * @dev Throws if called by any account other than the owner.
+   */
+  modifier onlyOwner() {
+    require(msg.sender == owner);
+    _;
+  }
+
+  /**
+   * @dev Allows the current owner to transfer control of the contract to a newOwner.
+   * @param newOwner The address to transfer ownership to.
+   */
+  function transferOwnership(address newOwner) public onlyOwner {
+    require(newOwner != address(0));
+    OwnershipTransferred(owner, newOwner);
+    owner = newOwner;
+  }
+}
+
+```
+
+So the Ownable contract basically does the following:
+
+- When a contract is created, its constructor sets the `owner` to `msg.sender` (the person who deployed it)
+
+- It adds an `onlyOwner` modifier, which can restrict access to certain functions to only the `owner`
+
+- It allows you to transfer the contract to a new `owner`
+
+`onlyOwner` is such a common requirement for contracts that most Solidity DApps start with a copy/paste of this `Ownable` contract, and then their first contract inherits from it.
