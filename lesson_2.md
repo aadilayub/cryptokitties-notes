@@ -80,7 +80,9 @@ It's time to give our zombies the ability to feed and multiply!
 
 When a zombie feeds on some other lifeform, its DNA will combine with the other lifeform's DNA to create a new zombie.
 
-To accomplish this, we will create a function `feedAndMultiply()`, which takes two parameters: `_zombieId`, and `_targetDna`. This function will be `public`. Although our function is public, we don't want to let anyone else feed our zombie through this function. To prevent this, we add a `require` stating that the `msg.sender` must be equal to this zombie's owner.
+To accomplish this, we will create a function `feedAndMultiply()`, which takes two parameters: `_zombieId`, and `_targetDna`. This function will be `public`. 
+
+Now, although our function is public, we don't want to let anyone else feed our zombie through this function. To prevent this, we add a `require` stating that the `msg.sender` must be equal to this zombie's owner.
 
 Once the new zombie has been created, we get its DNA! To do this, we declare a local `Zombie` that we store in the blockchain and add to our `zombies` array. 
 
