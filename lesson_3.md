@@ -112,3 +112,31 @@ So the Ownable contract basically does the following:
 - It allows you to transfer the contract to a new `owner`
 
 `onlyOwner` is such a common requirement for contracts that most Solidity DApps start with a copy/paste of this `Ownable` contract, and then their first contract inherits from it.
+
+## `onlyOwner` Function Modifier
+
+Now that our base contract `ZombieFactory` inherits from `Ownable`, we can use the `onlyOwner` function modifier in `ZombieFeeding` as well.
+
+### Function Modifiers
+
+A function modifier looks just like a function, but uses the keyword `modifier` instead of the keyword `function`. And it can't be called directly like a function can — instead we can attach the modifier's name at the end of a function definition to change that function's behavior.
+
+Let's take a closer look at `onlyOwner`: 
+```
+/**
+ * @dev Throws if called by any account other than the owner.
+ */
+modifier onlyOwner() {
+  require(msg.sender == owner);
+  _;
+}
+```
+Here's how we would apply it to one of our functions: 
+```
+ function setKittyContractAddress(address _address) external onlyOwner {
+    kittyContract = KittyInterface(_address);
+  }
+```
+
+
+In the case of `onlyOwner`, adding this modifier to a function makes it so only the owner of the contract (you, if you deployed it) can call that function.
