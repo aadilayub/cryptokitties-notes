@@ -28,7 +28,9 @@ The ethereum blockchcain is made up of accounts. An account has a balance of eth
 ```
 ## Msg.sender
 
-In Solidity, there are certain global variables that are available to all functions. One of these is `msg.sender`. `msg.sender` is kindof like `this`, in that its value depends on the context in which it is used. Generally, `msg.sender` refers to the `address` of the person (or smart contract) that called the function. Here's an example of us using `msg.sender` to update the record of zombies owned by a person:
+In Solidity, there are certain global variables that are available to all functions. One of these is `msg.sender`. `msg.sender` is kindof like `this`, in that its value depends on the context in which it is used. Generally, `msg.sender` refers to the `address` of the person (or smart contract) that called the function.
+
+Here's an example of us using `msg.sender` to update the record of zombies owned by a person:
 ```
 function _createZombie(string _name, uint _dna) private {
         uint id = zombies.push(Zombie(_name, _dna)) - 1;
