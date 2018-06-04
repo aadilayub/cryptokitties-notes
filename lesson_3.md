@@ -132,6 +132,7 @@ modifier onlyOwner() {
 }
 ```
 Here's how we would apply it to one of our functions: 
+
 ```
  function setKittyContractAddress(address _address) external onlyOwner {
     kittyContract = KittyInterface(_address);
