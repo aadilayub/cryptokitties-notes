@@ -363,8 +363,8 @@ We'll cover setting up `web3.js` with your own node later. But for now the big t
 
 We're going to implement a function that will return a user's entire zombie army. We can later call this function from web3.js if we want to display a user profile page with their entire army.
 ```
-  // Create your function here
-  function getZombiesByOwner(address _owner) external view {
-    return uint[];
+// Create your function here
+  function getZombiesByOwner(address _owner) external view returns(uint[]) {
+    
   }
 ```
