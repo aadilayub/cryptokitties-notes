@@ -280,3 +280,29 @@ So let's do that:
     _triggerCooldown(myZombie);
   }
  ``` 
+## Helper Methods + More Function Modifiers 
+
+Great! Our zombie now has a functional cooldown timer.
+
+Next, we're going to add some additional helper methods. Let's create a new file called `zombiehelper.sol`, which imports `zombiefeeding.sol`. This will help to keep our code organized.
+
+Let's make it so zombies gain special abilities after reaching a certain level. But in order to do that, first we'll need to learn a little bit more about function modifiers.
+
+### Function Modifiers with Arguments 
+
+Previously we looked at the simple example of `onlyOwner`. But function modifiers can also take arguments. Let's try making our own modifier that uses the zombie level property to restrict access to special abilities.
+
+```
+pragma solidity ^0.4.19;
+
+import "./zombiefeeding.sol";
+
+contract ZombieHelper is ZombieFeeding {
+
+  // Start here
+  modifier aboveLevel(uint _level, uint _zombieId) {
+    require(zombies[_zombieId].level >= _level);
+    _;
+  }  
+}
+```
