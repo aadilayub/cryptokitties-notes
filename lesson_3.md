@@ -306,3 +306,39 @@ contract ZombieHelper is ZombieFeeding {
   }  
 }
 ```
+
+## Zombie Modifiers 
+
+Now let's use our aboveLevel modifier to create some functions.
+
+Our game will have some incentives for people to level up their zombies:
+
+- For zombies level 2 and higher, users will be able to change their name.
+- For zombies level 20 and higher, users will be able to give them custom DNA.
+
+We'll implement these functions below. 
+
+```
+pragma solidity ^0.4.19;
+
+import "./zombiefeeding.sol";
+
+contract ZombieHelper is ZombieFeeding {
+
+  modifier aboveLevel(uint _level, uint _zombieId) {
+    require(zombies[_zombieId].level >= _level);
+    _;
+  }
+
+  // Start here
+  function changeName(uint _zombieId, string _newName) external aboveLevel(2, _zombieId) {
+      require(msg.sender == zombieToOwner[_zombieId]);
+      zombies[_zombieId].name = _newName;
+  } 
+
+  function changeDna(uint _zombieId, uint _newDna) external aboveLevel(20, _zombieId) {
+    require(msg.sender == zombieToOwner[_zombieId]);
+    zombies[_zombieId].dna = _newDna;
+  }
+}
+```
