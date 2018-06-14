@@ -253,3 +253,30 @@ contract ZombieFeeding is ZombieFactory {
 
 }
 ```
+
+## Public Functions & Security
+
+Now let's modify `feedAndMultiply` to take our cooldown timer into account. Looking back at this function, you can see we made it  made it `public` in the previous lesson. An important security practice is to examine all your `public` and `external` functions, and try to think of ways users might abuse them. Remember — unless these functions have a modifier like `onlyOwner`, any user can call them and pass them any data they want to.
+
+Re-examing this particular function, the user could call the function directly and pass in any `_targetDna` or `_species` they want to. This doesn't very game-like — we want them to follow our rules!
+
+On closer inspection, this function only needs to be called by `feedOnKitty()`, so the easiest way to prevent these exploits is to make it `internal`
+
+So let's do that:
+```
+  // 1. Make this function internal
+  function feedAndMultiply(uint _zombieId, uint _targetDna, string _species) internal {
+    require(msg.sender == zombieToOwner[_zombieId]);
+    Zombie storage myZombie = zombies[_zombieId];
+    // 2. Add a check for `_isReady` here
+    require(_isReady(myZombie));
+    _targetDna = _targetDna % dnaModulus;
+    uint newDna = (myZombie.dna + _targetDna) / 2;
+    if (keccak256(_species) == keccak256("kitty")) {
+      newDna = newDna - newDna % 100 + 99;
+    }
+    _createZombie("NoName", newDna);
+    // 3. Call `triggerCooldown`
+    _triggerCooldown(myZombie);
+  }
+ ``` 
