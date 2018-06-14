@@ -174,3 +174,19 @@ MiniMe mini = MiniMe(10, 20, 30);
 For this reason, inside a `struct` you'll want to use the smallest integer sub-types you can get away with.
 
 You'll also want to cluster identical data types together (i.e. put them next to each other in the `struct`) so that Solidity can minimize the required storage space. For example, a `struct` with fields `uint c; uint32 a; uint32 b;` will cost less gas than a struct with fields `uint32 a; uint c; uint32 b;` because the `uint32` fields are clustered together.
+
+## `level` and `readyTime`
+
+Let's add two new properties to our zombies! The `level` property is pretty self-explanatory. Later on, when we create a battle system, zombies who win more battles will level up over time and get access to more abilities.
+
+The `readyTime` property requires a bit more explanation. The goal is to add a "cooldown period", an amount of time a zombie has to wait after feeding or attacking before it's allowed to feed / attack again. Without this, the zombie could attack and multiply 1,000 times per day, which would make the game way too easy.
+
+In order to keep track of how much time a zombie has to wait until it can attack again, we can use Solidity's time units.
+
+### Time units
+
+Solidity provides some native units for dealing with time.
+
+The variable `now` will return the current unix timestamp (the number of seconds that have passed since January 1st 1970). The unix time as I write this is `1515527488`.
+
+Solidity also contains the time units `seconds`, `minutes`, `hours`, `days`, `weeks` and `years`. These will convert to a `uint` of the number of seconds in that length of time. So `1 minutes` is `60`, `1 hours` is `3600` (60 seconds x 60 minutes), `1 days` is `86400` (24 hours x 60 minutes x 60 seconds), etc.
