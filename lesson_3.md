@@ -393,3 +393,39 @@ Here's how to declare an array in memory:
 ```
 
 > Note: `memory` arrays must be created with a length argument (in this example, `3`). They currently cannot be resized like storage arrays can with `array.push()`, although this may be changed in a future version of Solidity.
+
+## Looping Over the Array
+
+In the previous chapter, we mentioned that sometimes you'll want to use a for loop to build the contents of an array in a function rather than simply saving that array to `storage`.
+
+Let's look at why.
+
+For our `getZombiesByOwner` function, a naive implementation would be to store a `mapping` of owners to zombie armies in the ZombieFactory contract:
+```
+mapping (address => uint[]) public ownerToZombies
+````
+Then every time we create a new zombie, we would simply use `ownerToZombies[owner].push(zombieId)` to add it to that owner's zombies array. And `getZombiesByOwner` would be a very straightforward function:
+```
+function getZombiesByOwner(address _owner) external view returns (uint[]) {
+  return ownerToZombies[_owner];
+}
+```
+
+### The problem with this approach
+
+This approach is tempting for its simplicity. But let's look at what happens if we later add a function to transfer a zombie from one owner to another (which we'll definitely want to add in a later lesson!).
+
+That transfer function would need to:
+
+1. Push the zombie to the new owner's `ownerToZombies` array,
+2. Remove the zombie from the old owner's `ownerToZombies` array,
+3. Shift every zombie in the older owner's array up one place to fill the hole, and then
+4. Reduce the array length by 1.
+
+Step 3 would be extremely expensive gas-wise, since we'd have to do a write for every zombie whose position we shifted. If an owner has 20 zombies and trades away the first one, we would have to do 19 writes to maintain the order of the array.
+
+Since writing to `storage` is one of the most expensive operations in Solidity, every call to this transfer function would be extremely expensive gas-wise. And worse, it would cost a different amount of gas each time it's called, depending on how many zombies the user has in their army and the index of the zombie being traded. So the user wouldn't know how much gas to send.
+
+> Note: Of course, we could just move the last zombie in the array to fill the missing slot and reduce the array length by one. But then we would change the ordering of our zombie army every time we made a trade.
+
+Since `view` functions don't cost gas when called externally, we can simply use a for-loop in `getZombiesByOwner` to iterate the entire zombies array and build an array of the zombies that belong to this specific owner. Then our transfer function will be much cheaper, since we don't need to reorder any arrays in `storage`, and somewhat counter-intuitively this approach is cheaper overall.
